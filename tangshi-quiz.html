@@ -2,336 +2,898 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>唐诗三百首 - 趣味答题</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title> 花香鸟语背唐诗 - 进阶版</title>
     <style>
-        /* 全局样式：儿童友好设计 */
+        /* ----------------- 青春调色盘 · 进阶标签 ----------------- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "微软雅黑", "幼圆", sans-serif;
+            font-family: 'Inter', -apple-system, 'PingFang SC', '微软雅黑', sans-serif;
         }
 
         body {
-            background-color: #fdf2f8;
-            padding: 20px;
+            background: linear-gradient(145deg, #fdf8f5 0%, #fff7f2 100%);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 780px;
+            width: 100%;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 2.2rem 2.2rem 2.8rem;
+            box-shadow: 0 20px 40px -10px rgba(255, 126, 95, 0.15), 0 8px 20px rgba(107, 171, 144, 0.08);
+            border: 1px solid rgba(255, 230, 220, 0.6);
         }
 
-        /* 标题样式 */
+        /* ---------- 头部 · 进度 + 进阶等级 ---------- */
         .header {
-            text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px dashed #ffe0d4;
+            padding-bottom: 1rem;
         }
 
         .header h1 {
-            color: #e53e3e;
-            font-size: 28px;
-            margin-bottom: 10px;
+            color: #5e7c6c;
+            font-size: 2rem;
+            font-weight: 650;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #ff8a7a, #ff7e5f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.2rem;
         }
 
-        .header p {
-            color: #718096;
-            font-size: 16px;
+        .progress-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #fff4ef;
+            padding: 0.4rem 1rem 0.4rem 1.5rem;
+            border-radius: 50px;
         }
 
-        /* 题目区域 */
-        .question-card {
-            background: #f0f8fb;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
+        .progress {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 1.1rem;
+            color: #4f6d5e;
+            font-weight: 500;
         }
 
-        .poem-title {
-            font-size: 22px;
-            color: #2d3748;
-            font-weight: bold;
-            margin-bottom: 8px;
+.progress .count,
+.progress .score,
+.progress .timer {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    padding: 0.2rem 0;
+}
+        .progress span {
+            font-weight: 700;
+            background: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            color: #ff7e5f;
+            box-shadow: 0 3px 6px rgba(255, 126, 95, 0.1);
+            margin-left: 0.3rem;
         }
 
-        .poem-author {
-            color: #4a5568;
-            font-size: 16px;
-            margin-bottom: 15px;
+        /* ----- 新增：倒计时标签 ----- */
+        .timer {
+            background: #ffd9ce;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            color: #c06a4a;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            white-space: nowrap;
+		line-height: 1;
+        }
+
+        .level-badge {
+            background: #6bab90;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(107, 171, 144, 0.2);
+            white-space: nowrap;
+        }
+
+        /* ---------- 诗文卡片 ---------- */
+        .poem-card {
+            background: #fefaf8;
+            border-radius: 28px;
+            padding: 2rem 1.8rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid #ffeae1;
+            box-shadow: 0 10px 20px -8px rgba(255, 140, 110, 0.08);
         }
 
         .poem-content {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #2d3748;
-            margin-bottom: 20px;
+            font-size: 1.28rem;
+            line-height: 2.2rem;
+            color: #3d5548;
+            font-weight: 450;
             white-space: pre-line;
+            word-break: break-word;
         }
 
-        /* 选项区域 */
+        /* ----- 挖空样式：仅一条虚线下划线，无括号 ----- */
+        .poem-content .blank {
+            display: inline-block;
+            min-width: 5em;
+            border-bottom: 3px dashed #ff9e7a;
+            color: transparent;
+            text-indent: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            vertical-align: middle;
+            margin: 0 0.1rem;
+            line-height: 1.2;
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: 620;
+            color: #557a66;
+            margin: 1.2rem 0 1.5rem 0;
+            padding-left: 0.8rem;
+            border-left: 8px solid #ffb199;
+            line-height: 1.4;
+        }
+
+        /* ---------- 选项 ---------- */
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
         }
 
         .option {
-            padding: 15px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 18px;
+            padding: 1rem 1.8rem;
+            background: white;
+            border: 2px solid #ffded5;
+            border-radius: 50px;
+            font-size: 1.12rem;
+            color: #3c5a4b;
+            font-weight: 480;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 3px 6px rgba(255, 140, 100, 0.03);
         }
 
         .option:hover {
-            background-color: #f5f5f5;
+            background: #fff2ed;
+            border-color: #ffaa8c;
+            transform: scale(1.01);
         }
 
         .option.selected {
-            background-color: #4299e1;
+            background: linear-gradient(145deg, #ff8a7a, #ff7e5f);
+            border-color: #ff7e5f;
             color: white;
-            border-color: #4299e1;
+            font-weight: 520;
+            box-shadow: 0 10px 18px -6px rgba(255, 126, 95, 0.4);
         }
 
-        /* 按钮样式 */
+        /* ---------- 双按钮同一行 ---------- */
+        .action-row {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
         .btn {
-            width: 100%;
-            padding: 15px;
+            flex: 1;
+            padding: 1rem 0.8rem;
             border: none;
-            border-radius: 12px;
-            font-size: 18px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
+            transition: 0.2s ease;
+            letter-spacing: 1px;
+            background: white;
+            color: #5c7b6a;
+            border: 1.5px solid #ffd9ce;
+            text-align: center;
         }
 
         .submit-btn {
-            background-color: #48bb78;
+            background: linear-gradient(145deg, #ff8e78, #ff7a5c);
             color: white;
+            border: none;
+            box-shadow: 0 8px 18px -6px #ff7e5f;
+        }
+
+        .submit-btn:hover:enabled {
+            background: linear-gradient(145deg, #ff7c64, #ff6b4a);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px -8px #ff7a5c;
         }
 
         .submit-btn:disabled {
-            background-color: #cbd5e0;
+            background: #eecfc7;
+            color: #ffeae3;
+            box-shadow: none;
+            transform: none;
             cursor: not-allowed;
         }
 
         .next-btn {
-            background-color: #9f7aea;
-            color: white;
+            background: white;
+            border: 2px solid #6bab90;
+            color: #4d7a68;
         }
 
-        /* 结果反馈 */
+        .next-btn:hover {
+            background: #edfff5;
+            border-color: #5f9c82;
+        }
+
+        .restart-btn {
+            background: #fff3ef;
+            border: 1.5px solid #ffb8a5;
+            color: #c06a4a;
+            margin-top: 0.5rem;
+        }
+
+        /* ---------- 结果反馈 ---------- */
         .result {
             text-align: center;
-            font-size: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            animation: fadeIn 0.5s ease;
+            font-size: 1.2rem;
+            padding: 1rem;
+            border-radius: 60px;
+            margin: 0.8rem 0 0.2rem;
+            font-weight: 520;
+            display: none;
+            background: #e3f2e9;
+            color: #2d6a4f;
+            border: 1px solid #b7dfc5;
         }
 
-        .correct {
-            background-color: #c6f6d5;
-            color: #22543d;
+        .result.incorrect {
+            background: #ffe8e5;
+            color: #b85141;
+            border-color: #ffc3b0;
         }
 
-        .incorrect {
-            background-color: #fed7d7;
-            color: #742a2a;
+        /* ---------- 弹窗 ---------- */
+        .checkin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 215, 200, 0.5);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
         }
 
-        /* 动画效果 */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal-content {
+            background: rgba(255, 250, 245, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 2.5rem 2.2rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 50px -20px rgba(255, 126, 95, 0.3);
+            border: 1px solid rgba(255, 240, 235, 0.7);
         }
 
-        /* 响应式适配 */
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-            .header h1 {
-                font-size: 24px;
-            }
-            .poem-content {
-                font-size: 16px;
-            }
+        .modal-content .icon { font-size: 4.2rem; margin-bottom: 0.5rem; }
+        .modal-content h2 { color: #ff7e5f; font-size: 2.1rem; font-weight: 650; margin-bottom: 0.5rem; }
+        .modal-content p { font-size: 1.2rem; color: #5e7c6c; margin-bottom: 1.8rem; }
+
+        .loading, .error-tip {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #9f8b84;
+            font-size: 1.2rem;
+            background: #fffbf9;
+            border-radius: 36px;
+        }
+
+        @media (max-width: 550px) {
+            .container { padding: 1.5rem; }
+            .header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .poem-content { font-size: 1.1rem; }
+            .action-row { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 头部标题 -->
         <div class="header">
-            <h1>唐诗三百首 - 趣味答题</h1>
-            <p>小朋友，快来挑战唐诗答题吧！🎈</p>
+            <h1>🍃 花香鸟语背唐诗</h1>
+            <div class="progress-area">
+                <div class="progress">
+                    <div class="count">📖 进度 <span id="questionCount">1/10</span></div>
+                    <div class="score">🏆 得分 <span id="currentScore">0</span></div>
+                    <div class="timer">⏳ <span id="timeLeft">8</span></div>  <!-- 新增倒计时显示 -->
+                </div>
+                <div id="levelBadge" class="level-badge">🏅 L1</div>
+            </div>
         </div>
 
-        <!-- 题目卡片 -->
-        <div class="question-card" id="questionCard">
-            <div class="poem-title" id="poemTitle">Loading...</div>
-            <div class="poem-author" id="poemAuthor"></div>
-            <div class="poem-content" id="poemContent"></div>
+        <!-- 主答题区 -->
+        <div id="questionCard">
+            <div id="loadingTip" class="loading" style="display: block;">🌸 翻开诗卷，稍候……</div>
 
-            <!-- 选项区域 -->
-            <div class="options" id="optionsContainer"></div>
+            <div id="poemCard" class="poem-card" style="display: none;">
+                <div id="poemContentArea" class="poem-content"></div>
+            </div>
 
-            <!-- 提交按钮 -->
-            <button class="btn submit-btn" id="submitBtn" disabled>提交答案</button>
+            <div id="questionText" class="question-title" style="display: none;"></div>
+            <div id="optionsContainer" class="options" style="display: none;"></div>
 
-            <!-- 结果反馈 -->
-            <div class="result" id="resultArea" style="display: none;"></div>
+            <!-- 双按钮同一行 -->
+            <div id="actionRow" class="action-row" style="display: none;">
+                <button id="submitBtn" class="btn submit-btn" disabled>✏️ 提交</button>
+                <button id="nextBtn" class="btn next-btn" style="display: none;">✨ 下一题</button>
+            </div>
 
-            <!-- 下一题按钮 -->
-            <button class="btn next-btn" id="nextBtn" style="display: none;" onclick="getNewQuestion()">下一题</button>
+            <div id="resultArea" class="result"></div>
+        </div>
+    </div>
+
+    <!-- 完成弹窗 -->
+    <div id="checkinModal" class="checkin-modal">
+        <div class="modal-content">
+            <div id="modalIcon" class="icon">🎉</div>
+            <h2>打卡成功</h2>
+            <p id="modalMsg">本轮得分 0 分，明天继续呀</p>
+            <button id="restartBtn" class="btn restart-btn" style="width: auto; padding: 0.9rem 2.8rem;">🍃 再背一轮</button>
         </div>
     </div>
 
     <script>
-        // 唐诗题库（你可以替换为自己的完整题库）
-        const poemDatabase = [
-            {
-                id: 1,
-                title: "静夜思",
-                author: "李白",
-                content: "床前明月光，疑是地上霜。\n举头望明月，低头思故乡。",
-                options: ["A.床前明月光", "B.锄禾日当午", "C.春眠不觉晓"],
-                answer: "A.床前明月光"
-            },
-            {
-                id: 2,
-                title: "悯农（其二）",
-                author: "李绅",
-                content: "锄禾日当午，汗滴禾下土。\n谁知盘中餐，粒粒皆辛苦。",
-                options: ["A.春眠不觉晓", "B.锄禾日当午", "C.白日依山尽"],
-                answer: "B.锄禾日当午"
-            },
-            {
-                id: 3,
-                title: "春晓",
-                author: "孟浩然",
-                content: "春眠不觉晓，处处闻啼鸟。\n夜来风雨声，花落知多少。",
-                options: ["A.黄河入海流", "B.春眠不觉晓", "C.举杯邀明月"],
-                answer: "B.春眠不觉晓"
-            },
-            {
-                id: 4,
-                title: "登鹳雀楼",
-                author: "王之涣",
-                content: "白日依山尽，黄河入海流。\n欲穷千里目，更上一层楼。",
-                options: ["A.黄河入海流", "B.清泉石上流", "C.润物细无声"],
-                answer: "A.黄河入海流"
-            }
-        ];
+        // ====================== 全局数据 ======================
+        let questionBank = [];
+        let refData = { title_ref: [], author_ref: [], content_ref: [] };
 
-        // 全局变量
         let currentQuestion = null;
         let selectedOption = null;
+        let currentRoundQuestions = [];      // 当前轮10道题
+        let currentQIndex = 0;
+        let currentScore = 0;
+        const questionsPerRound = 10;
+        let currentPoemContent = "";
 
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            getNewQuestion();
-            
-            // 绑定提交按钮点击事件
-            document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+        // ----- 进阶相关 -----
+        let currentLevel = 1;               // 初始 L1
+        const MAX_LEVEL = 6;
+        const LEVEL_KEY = 'level';         // 题库中代表难度的字段名
+
+        // ============== 新增：计时器相关 ==============
+        let timerInterval = null;      // 倒计时定时器ID
+        let timeRemaining = 6;       // 当前题剩余秒数
+        const MAX_TIME = 6;         // 每道题总时长
+
+        // ---------------------- 启动 -------------------------
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await loadJsonData();
+                // 初始抽取当前等级的题目
+                initRoundQuestionsByLevel(currentLevel);
+                loadCurrentQuestion();
+                bindEvents();
+                updateLevelBadge();
+            } catch (e) {
+                document.getElementById('loadingTip').innerHTML = `❌ 加载失败，请确认JSON文件存在且格式正确。<br>${e.message}`;
+            }
         });
 
-        // 获取随机题目
-        function getNewQuestion() {
+        // ---------------------- 加载JSON ----------------------
+        async function loadJsonData() {
+            const [qRes, rRes] = await Promise.all([
+                fetch('tangshi_questions.json'),
+                fetch('tangshi_ref.json')
+            ]);
+            if (!qRes.ok) throw new Error('题库文件未找到');
+            if (!rRes.ok) throw new Error('参考词库未找到');
+
+            const qJson = await qRes.json();
+            const rJson = await rRes.json();
+
+            if (!Array.isArray(qJson)) throw new Error('题库应为数组');
+            questionBank = qJson;
+
+            // 处理参考词库（保持纯文本，无标点）
+            if (Array.isArray(rJson)) {
+                refData.title_ref = [...new Set(rJson.map(i => i.title_ref).filter(Boolean))];
+                refData.author_ref = [...new Set(rJson.map(i => i.author_ref).filter(Boolean))];
+                // content_ref 强制去除末尾标点，保持纯净
+                refData.content_ref = [...new Set(rJson.map(i => i.content_ref).filter(Boolean))].map(
+                    s => s.replace(/[。，、；：！？\s]+$/, '')  // 去掉尾部标点空格
+                );
+            } else if (rJson && typeof rJson === 'object') {
+                refData = {
+                    title_ref: Array.isArray(rJson.title_ref) ? rJson.title_ref : [],
+                    author_ref: Array.isArray(rJson.author_ref) ? rJson.author_ref : [],
+                    content_ref: Array.isArray(rJson.content_ref) ? 
+                        rJson.content_ref.map(s => s.replace(/[。，、；：！？\s]+$/, '')) : []
+                };
+            }
+        }
+
+        // ----------------- 根据等级抽取不重复的10题 -----------------
+        function initRoundQuestionsByLevel(level) {
+            if (!questionBank.length) return;
+
+            // 筛选出当前等级的题目
+            const levelQuestions = questionBank.filter(q => q[LEVEL_KEY] === `L${level}`);
+            if (levelQuestions.length === 0) {
+                console.warn(`等级 L${level} 无题目，降级使用 L1`);
+                return initRoundQuestionsByLevel(1);  // 降级
+            }
+
+            // 随机抽取不重复的10题
+            const shuffled = [...levelQuestions].sort(() => Math.random() - 0.5);
+            const selected = [];
+            const usedIds = new Set();
+
+            for (let i = 0; i < shuffled.length && selected.length < questionsPerRound; i++) {
+                const q = shuffled[i];
+                const id = q.ID || q.content || JSON.stringify(q);
+                if (!usedIds.has(id)) {
+                    usedIds.add(id);
+                    selected.push(q);
+                }
+            }
+
+            if (selected.length < questionsPerRound) {
+                console.warn(`等级 L${level} 题目不足10道，将部分重复`);
+                while (selected.length < questionsPerRound) {
+                    const remain = levelQuestions.filter(q => {
+                        const id = q.ID || q.content;
+                        return !selected.some(s => (s.ID || s.content) === id);
+                    });
+                    if (remain.length > 0) {
+                        const extra = remain[Math.floor(Math.random() * remain.length)];
+                        selected.push(extra);
+                    } else {
+                        selected.push(levelQuestions[0]);
+                    }
+                }
+            }
+
+            currentRoundQuestions = selected.slice(0, questionsPerRound);
+        }
+
+        // ============== 新增：计时器函数 ==============
+        function startTimer() {
+            clearTimer();
+            timeRemaining = MAX_TIME;
+            const timeSpan = document.getElementById('timeLeft');
+            if (timeSpan) timeSpan.textContent = timeRemaining;
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                if (timeSpan) timeSpan.textContent = timeRemaining;
+
+                if (timeRemaining <= 0) {
+                    clearTimer();
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        function clearTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function handleTimeout() {
+            if (document.getElementById('nextBtn').style.display === 'block') return;
+            if (!currentQuestion) return;
+
+            const resultDiv = document.getElementById('resultArea');
+            resultDiv.className = 'result incorrect';
+            resultDiv.textContent = `⏰ 超时！正确答案：${currentQuestion.correctAnswer}`;
+            resultDiv.style.display = 'block';
+
+            document.getElementById('submitBtn').disabled = true;
+            document.querySelectorAll('.option').forEach(el => el.style.pointerEvents = 'none');
+
+            document.getElementById('nextBtn').style.display = 'block';
+
+            // 延迟1秒自动进入下一题，让用户看到超时反馈
+            setTimeout(() => {
+                if (document.getElementById('nextBtn').style.display === 'block') {
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        // ---------------------- 加载当前题 --------------------
+        function loadCurrentQuestion() {
+            // 显示内容区域
+            document.getElementById('loadingTip').style.display = 'none';
+            document.getElementById('poemCard').style.display = 'block';
+            document.getElementById('questionText').style.display = 'block';
+            document.getElementById('optionsContainer').style.display = 'flex';
+            document.getElementById('actionRow').style.display = 'flex';
+            document.getElementById('submitBtn').style.display = 'block';
+            // 下一题按钮初始隐藏，提交后再显示
+            document.getElementById('nextBtn').style.display = 'none';
+
             // 重置状态
             selectedOption = null;
             document.getElementById('submitBtn').disabled = true;
             document.getElementById('resultArea').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'none';
-            
-            // 随机选择一道题
-            const randomIndex = Math.floor(Math.random() * poemDatabase.length);
-            currentQuestion = poemDatabase[randomIndex];
-            
-            // 渲染题目
-            renderQuestion(currentQuestion);
+            document.querySelectorAll('.option').forEach(el => el.style.pointerEvents = 'auto');
+
+            // 重置计时器显示
+            const timeSpan = document.getElementById('timeLeft');
+            if (timeSpan) timeSpan.textContent = MAX_TIME;
+
+            currentQuestion = currentRoundQuestions[currentQIndex];
+            const questionData = generateQuestion(currentQuestion);
+            currentQuestion.correctAnswer = questionData.correctAnswer;
+
+            // 更新UI
+            document.getElementById('questionCount').textContent = `${currentQIndex + 1}/${currentRoundQuestions.length}`;
+            document.getElementById('currentScore').textContent = currentScore;
+            document.getElementById('poemContentArea').innerHTML = currentPoemContent;
+            document.getElementById('questionText').textContent = questionData.question;
+            renderOptions(questionData.options);
+
+            // 启动倒计时
+            startTimer();
         }
 
-        // 渲染题目到页面
-        function renderQuestion(question) {
-            document.getElementById('poemTitle').textContent = question.title;
-            document.getElementById('poemAuthor').textContent = "—— " + question.author;
-            document.getElementById('poemContent').textContent = question.content;
+        // ---------- 格式化诗文：每两句一行，挖空无括号，仅虚线 ----------
+        function formatPoemDisplay(originalContent, blankLineIndex = -1) {
+            if (!originalContent) return '<span style="color:#b9a094;">待补充</span>';
             
-            // 渲染选项
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
+            let lines = originalContent
+                .replace(/[，、；。]/g, match => match + '|')
+                .split('|')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
             
-            question.options.forEach(option => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.textContent = option;
-                optionElement.addEventListener('click', function() {
-                    // 清除之前的选中状态
-                    document.querySelectorAll('.option').forEach(el => {
-                        el.classList.remove('selected');
-                    });
-                    // 设置当前选中状态
+            if (lines.length < 2) {
+                lines = originalContent.split(/[。\n]/).filter(s => s).map(s => s+'。');
+            }
+
+            let html = '';
+            for (let i = 0; i < lines.length; i += 2) {
+                let first = lines[i] || '';
+                let second = (i+1 < lines.length) ? lines[i+1] : '';
+
+                if (i === blankLineIndex) {
+                    first = '<span class="blank">______</span>';
+                    if (!endsWithPunctuation(first)) {
+                        first += '，';
+                    }
+                } else if (i+1 === blankLineIndex) {
+                    second = '<span class="blank">______</span>';
+                    if (!endsWithPunctuation(second)) {
+                        second += '。';
+                    }
+                }
+
+                function endsWithPunctuation(str) {
+                    return /[。，、；：！？]$/.test(str);
+                }
+
+                if (first && first !== '<span class="blank">______</span>' && !endsWithPunctuation(first)) {
+                    first += '，';
+                }
+                if (second && second !== '<span class="blank">______</span>' && !endsWithPunctuation(second)) {
+                    second += '。';
+                }
+
+                html += `<div style="margin-bottom: 0.55rem;">${first} ${second}</div>`;
+            }
+            return html;
+        }
+
+        // ---------- 判断标题是否含标点 ----------
+        function hasPunctuation(title) {
+            if (!title) return false;
+            return /[·，。、；：！“”？《》‘’—]/.test(title);
+        }
+
+        // ---------- 去除字符串末尾标点/空格 ----------
+        function trimPunctuation(str) {
+            if (!str) return '';
+            return str.replace(/[。，、；：！？\s]+$/, '');
+        }
+
+        // ---------- 核心题型生成 ----------
+        function generateQuestion(q) {
+            currentPoemContent = formatPoemDisplay(q.content);
+
+            if (q.question && q.question.trim()) {
+                const opts = q.option.split('；').map(s => s.trim()).filter(s => s);
+                const correct = opts.find(opt => opt.startsWith(q.answer.trim())) || opts[0];
+                return { question: q.question, options: opts, correctAnswer: correct };
+            }
+
+            if (hasPunctuation(q.title)) {
+                return generateContentQuestion(q);
+            }
+
+            const rand = Math.random() * 100;
+            if (rand < 60) {
+                return generateContentQuestion(q);
+            } else if (rand < 80) {
+                return generateTitleQuestion(q);
+            } else {
+                return generateAuthorQuestion(q);
+            }
+        }
+
+        // ---------- 标题题 ----------
+        function generateTitleQuestion(q) {
+            const correct = q.title || '未名';
+            let options = [correct];
+            const candidates = refData.title_ref.filter(t => t && t !== correct);
+            while (options.length < 3 && candidates.length) {
+                let r = candidates[Math.floor(Math.random() * candidates.length)];
+                if (!options.includes(r)) options.push(r);
+            }
+            while (options.length < 3) options.push(`诗篇${options.length+1}`);
+            options = options.sort(() => Math.random() - 0.5);
+            const labeled = options.map((opt,i) => `${String.fromCharCode(65+i)}. ${opt}`);
+            currentPoemContent = formatPoemDisplay(q.content);
+            return {
+                question: '📜 这首诗的题目是？',
+                options: labeled,
+                correctAnswer: labeled.find(opt => opt.endsWith(correct))
+            };
+        }
+
+        // ---------- 作者题 ----------
+        function generateAuthorQuestion(q) {
+            const correct = q.author || '佚名';
+            let options = [correct];
+            const candidates = refData.author_ref.filter(a => a && a !== correct);
+            while (options.length < 3 && candidates.length) {
+                let r = candidates[Math.floor(Math.random() * candidates.length)];
+                if (!options.includes(r)) options.push(r);
+            }
+            while (options.length < 3) options.push(`诗人${options.length+1}`);
+            options = options.sort(() => Math.random() - 0.5);
+            const labeled = options.map((opt,i) => `${String.fromCharCode(65+i)}. ${opt}`);
+            currentPoemContent = formatPoemDisplay(q.content);
+            return {
+                question: '✍️ 这首诗的作者是？',
+                options: labeled,
+                correctAnswer: labeled.find(opt => opt.endsWith(correct))
+            };
+        }
+
+        // ---------- 内容挖空题（选项长度与正确答案一致）----------
+        function generateContentQuestion(q) {
+            let rawLines = q.content
+                .replace(/[，、；。]/g, match => match + '|')
+                .split('|')
+                .map(l => trimPunctuation(l.trim()))
+                .filter(l => l.length > 0);
+            if (rawLines.length < 2) {
+                rawLines = q.content.split(/[。\n]/).filter(l => l).map(l => trimPunctuation(l));
+            }
+            if (rawLines.length === 0) return generateTitleQuestion(q);
+
+            const blankIdx = Math.floor(Math.random() * rawLines.length);
+            const correctLine = rawLines[blankIdx];
+
+            currentPoemContent = formatPoemDisplay(q.content, blankIdx);
+
+            let options = [correctLine];
+            const correctLen = correctLine.length;
+            let candidates = refData.content_ref.filter(line => 
+                line && line.length === correctLen && line !== correctLine
+            );
+            candidates = [...new Set(candidates)];
+
+            const shuffledCandidates = [...candidates].sort(() => Math.random() - 0.5);
+            while (options.length < 3 && shuffledCandidates.length > 0) {
+                const cand = shuffledCandidates.shift();
+                if (!options.includes(cand)) {
+                    options.push(cand);
+                }
+            }
+
+            if (options.length < 3) {
+                let fallbackCandidates = refData.content_ref.filter(line => {
+                    if (!line || line === correctLine) return false;
+                    const lenDiff = Math.abs(line.length - correctLen);
+                    return lenDiff <= 1 && !options.includes(line);
+                });
+                fallbackCandidates = [...new Set(fallbackCandidates)].sort(() => Math.random() - 0.5);
+                while (options.length < 3 && fallbackCandidates.length > 0) {
+                    const cand = fallbackCandidates.shift();
+                    if (!options.includes(cand)) {
+                        options.push(cand);
+                    }
+                }
+            }
+
+            if (options.length < 3) {
+                const allOthers = refData.content_ref.filter(line => 
+                    line && line !== correctLine && !options.includes(line)
+                );
+                const shuffledOthers = [...allOthers].sort(() => Math.random() - 0.5);
+                while (options.length < 3 && shuffledOthers.length > 0) {
+                    const cand = shuffledOthers.shift();
+                    if (!options.includes(cand)) {
+                        options.push(cand);
+                    }
+                }
+            }
+
+            while (options.length < 3) {
+                options.push(`诗句${options.length + 1}`);
+            }
+
+            options = options.sort(() => Math.random() - 0.5);
+            const labeled = options.map((opt, i) => `${String.fromCharCode(65 + i)}. ${opt}`);
+            const correctAnswer = labeled.find(opt => opt.includes(correctLine)) || labeled[0];
+
+            return {
+                question: '🌸 诗中空缺处应填入？',
+                options: labeled,
+                correctAnswer: correctAnswer
+            };
+        }
+
+        // ---------- 渲染选项 ----------
+        function renderOptions(opts) {
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            if (!opts || !opts.length) return;
+            opts.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.textContent = opt;
+                div.addEventListener('click', function() {
+                    document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
                     this.classList.add('selected');
-                    selectedOption = option;
-                    // 启用提交按钮
+                    selectedOption = opt;
                     document.getElementById('submitBtn').disabled = false;
                 });
-                optionsContainer.appendChild(optionElement);
+                container.appendChild(div);
             });
         }
 
-        // 检查答题结果
+        // ---------- 提交答案（已添加 clearTimer）----------
         function checkAnswer() {
-            const resultArea = document.getElementById('resultArea');
-            const isCorrect = selectedOption === currentQuestion.answer;
-            
-            // 设置结果样式和内容
+            clearTimer(); // 提交答案立即停止倒计时
+
+            if (!selectedOption) return;
+            const resultDiv = document.getElementById('resultArea');
+            const isCorrect = selectedOption === currentQuestion.correctAnswer;
+
             if (isCorrect) {
-                resultArea.className = 'result correct';
-                resultArea.textContent = '答对啦！🎉 你真棒～';
-                // 播放答对音效（可选）
-                playSound('success');
+                currentScore += 10;
+                resultDiv.className = 'result';
+                resultDiv.textContent = '✓ 太棒啦！ +10分';
             } else {
-                resultArea.className = 'result incorrect';
-                resultArea.textContent = `答错了哦～💡 正确答案是：${currentQuestion.answer}`;
-                // 播放答错音效（可选）
-                playSound('fail');
+                resultDiv.className = 'result incorrect';
+                resultDiv.textContent = `✗ 正确答案：${currentQuestion.correctAnswer}`;
             }
-            
-            // 显示结果和下一题按钮
-            resultArea.style.display = 'block';
+
+            document.getElementById('currentScore').textContent = currentScore;
+            resultDiv.style.display = 'block';
             document.getElementById('nextBtn').style.display = 'block';
-            // 禁用提交按钮
             document.getElementById('submitBtn').disabled = true;
+            document.querySelectorAll('.option').forEach(el => el.style.pointerEvents = 'none');
         }
 
-        // 播放反馈音效（可选功能）
-        function playSound(type) {
-            try {
-                // 这里可以替换为实际的音效文件路径
-                let soundUrl = '';
-                if (type === 'success') {
-                    soundUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3';
-                } else {
-                    soundUrl = 'https://assets.mixkit.co/sfx/preview/mixkit-negative-quick-tone-2867.mp3';
-                }
-                
-                const audio = new Audio(soundUrl);
-                audio.volume = 0.5;
-                audio.play();
-            } catch (e) {
-                // 音效播放失败不影响核心功能
-                console.log('音效播放失败:', e);
+        // ---------- 下一题（已添加 clearTimer）----------
+        function nextQuestion() {
+            clearTimer(); // 切换题目时清除倒计时
+
+            currentQIndex++;
+            if (currentQIndex >= currentRoundQuestions.length) {
+                showCompletionModal();
+            } else {
+                loadCurrentQuestion();
             }
+        }
+
+        // ---------- 完成弹窗 + 进阶/重试/大满贯 ----------
+        function showCompletionModal() {
+            const modal = document.getElementById('checkinModal');
+            const icon = document.getElementById('modalIcon');
+            const msg = document.getElementById('modalMsg');
+            const actionBtn = document.getElementById('restartBtn');
+
+            const isFullScore = currentScore === 100;
+            const isMaxLevel = currentLevel === MAX_LEVEL;
+
+            if (isFullScore && isMaxLevel) {
+                icon.textContent = '🏆🏆🏆';
+                msg.textContent = '🎉 恭喜你！唐诗大满贯！\n所有等级满分通关！';
+                actionBtn.textContent = '🌟 重新开始';
+                actionBtn.onclick = () => {
+                    currentLevel = 1;
+                    updateLevelBadge();
+                    resetAndStartRound();
+                    modal.style.display = 'none';
+                };
+            }
+            else if (isFullScore) {
+                const nextLevel = currentLevel + 1;
+                icon.textContent = '🎖️';
+                msg.textContent = `✨ 太强了！满分通关 L${currentLevel}！\n晋级 L${nextLevel} 🚀`;
+                actionBtn.textContent = `🔓 进入 L${nextLevel}`;
+                actionBtn.onclick = () => {
+                    currentLevel = nextLevel;
+                    updateLevelBadge();
+                    resetAndStartRound();
+                    modal.style.display = 'none';
+                };
+            }
+            else {
+                icon.textContent = '🌱';
+                msg.textContent = `📖 本轮得分 ${currentScore}，未到满分。\n再挑战一次 L${currentLevel} 吧！`;
+                actionBtn.textContent = '🔄 再试一次';
+                actionBtn.onclick = () => {
+                    resetAndStartRound();
+                    modal.style.display = 'none';
+                };
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        // ---------- 重置本轮并开始新的一轮（已添加计时器重置）----------
+        function resetAndStartRound() {
+            clearTimer(); // 重置时清除计时器
+            document.getElementById('timeLeft').textContent = MAX_TIME; // 重置显示
+
+            currentQIndex = 0;
+            currentScore = 0;
+            initRoundQuestionsByLevel(currentLevel);
+            loadCurrentQuestion();
+        }
+
+        // ---------- 更新等级徽章 ----------
+        function updateLevelBadge() {
+            const badge = document.getElementById('levelBadge');
+            badge.textContent = `🏅 L${currentLevel}`;
+            const colors = ['#6bab90', '#7fa87f', '#8fa56e', '#a1a25c', '#b49f4a', '#c79b38'];
+            badge.style.background = colors[(currentLevel - 1) % colors.length];
+        }
+
+        // ---------- 绑定事件 ----------
+        function bindEvents() {
+            document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+            const restartBtn = document.getElementById('restartBtn');
+            const newRestartBtn = restartBtn.cloneNode(true);
+            restartBtn.parentNode.replaceChild(newRestartBtn, restartBtn);
         }
     </script>
 </body>
